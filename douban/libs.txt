@@ -1,0 +1,6 @@
+pip install selenium -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install pillow -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+配置说明
+打开http://chromedriver.storage.googleapis.com/index.html，根据自己的操作系统下载对应的chromedriver
+打开当前面目录下的**getMovieInRankingList.py**，定位到第59行，将executable_path=/Users/bird/Desktop/chromedriver.exe修改成你自己的chromedriver路径
