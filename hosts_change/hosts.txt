@@ -1,9 +1,3 @@
-104.24.100.244 www.zodgame.us
-104.25.182.10 e-hentai.org
 69.194.14.16 lncn.org
 192.30.253.113 github.com
-104.25.223.113 rule34.xxx
-104.25.223.113 img.rule34.xxx
-104.25.223.113 wwebm.rule34.xxx
-35.189.168.245 service.paper.meiyuan.in
-service.paper.meiyuan.in.ipaddress.com/#ipinfo
+.ipaddress.com/#ipinfo
