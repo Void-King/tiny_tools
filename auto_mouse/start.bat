@@ -1,0 +1,1 @@
+d:&cd D:\Code\Python\auto_mouse&start program&python auto_mouse.py
