@@ -9,7 +9,7 @@ root.title('hosts change')
 frame = tk.Frame(root)
 frame.grid(row = 1, sticky = tk.W, padx = 20, pady = 10)
 
-text = tk.Label(root, text = 'null', justify = tk.LEFT)
+text = tk.Text(root, font = '微软雅黑 10')
 text.grid(row = 0, sticky = tk.W, padx = 25, pady = 15)
 
 ipt = tk.Entry(frame, width = 50)
@@ -21,7 +21,8 @@ ipt.grid(row = 0, column = 0, sticky = tk.W, padx = 5, pady = 5)
 def flushf():
     f = open('C:\Windows\System32\drivers\etc\hosts', 'r')
     all_hosts = f.read() + '----------------------------------------------'
-    text.configure(text = all_hosts)
+    text.delete('1.0','end')
+    text.insert(tk.INSERT, all_hosts)
     f.close()
     r = os.popen('ipconfig /flushdns')
     # print (r.read())
