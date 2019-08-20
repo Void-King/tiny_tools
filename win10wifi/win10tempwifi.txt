@@ -1,0 +1,5 @@
+netsh wlan show hostednetwork
+netsh wlan set hostednetwork mode=allow ssid=wifi-temp key=
+netsh wlan start hostednetwork
+netsh wlan stop hostednetwork
+netsh wlan set hostednetwork mode=disallow

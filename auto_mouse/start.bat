@@ -1,1 +1,1 @@
-d:&cd D:\Code\Python\auto_mouse&start program&python auto_mouse.py
+d:&cd D:\Code\Python\tiny_tools\auto_mouse&start program&python auto_mouse.py
