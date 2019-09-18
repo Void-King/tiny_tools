@@ -49,6 +49,14 @@ def deletef():
             break
     fw.close()
     flushf()
+def opendir():
+    r = os.popen('explorer.exe C:\Windows\System32\drivers\etc\ ')
+    # print (r.read())
+    r.close()
+
+
+
+
 
 ibt = tk.Button(frame, text = '插入', command = insertf)
 ibt.grid(row = 0, column = 1, padx = 5, pady = 5)
@@ -56,5 +64,7 @@ dbt = tk.Button(frame, text = '删除', command = deletef)
 dbt.grid(row = 0, column = 2, padx = 5, pady = 5)
 fbt = tk.Button(frame, text = '刷新', command = flushf)
 fbt.grid(row = 0, column = 3, padx = 5, pady = 5)
+fbt = tk.Button(frame, text = '打开文件夹', command = opendir)
+fbt.grid(row = 0, column = 4, padx = 5, pady = 5)
 flushf()
 root.mainloop()
