@@ -6,6 +6,13 @@ import re
 import tkinter as tk
 from bs4 import BeautifulSoup
 # pip install BeautifulSoup4 -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+
+# https://ji-i.pw/#/
+# 69.194.14.16 lncn.org
+# https://china.tg/
+
+
 def getPic(url):
     proxy = {
         'http': 'http://127.0.0.1:1080',
