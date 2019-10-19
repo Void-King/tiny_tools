@@ -9,7 +9,24 @@ def pstfx():
     pst[0] = int (pst[0])
     pst[1] = int (pst[1])
     return pst
-
+def commentSaveAndShare(pst):
+    time.sleep(1)
+    pag.click(pst[0] + 153, pst[1] + 334)
+    time.sleep(1)
+    pag.click(pst[0] - 271, pst[1] + 55)
+    time.sleep(3)
+    pag.click(pst[0] - 311, pst[1] - 533)
+    for i in range(0,5):
+        time.sleep(1)
+        pag.click(pst[0] + 104, pst[1] + 334)
+    time.sleep(1)
+    pag.click(pst[0] - 104, pst[1] + 334)
+    time.sleep(0.5)
+    pag.hotkey('b', 'w', 'c', 'x', ',', 'f', 'd', 's', 'z')
+    pag.hotkey(' ')
+    time.sleep(1)
+    pag.click(pst[0] + 163, pst[1] + 274)
+    time.sleep(1)
 def bAndr(i, pst):
     print ('\n第' + str(i+1) + '个')
     pag.click(pst[0], pst[1])
@@ -20,6 +37,7 @@ def bAndr(i, pst):
             pag.scroll(-100)
         sys.stdout.write('\r正在观看 还有' + str(199-i) + '秒   ')
         sys.stdout.flush()
+    commentSaveAndShare(pst)
     pag.click(pst[0]-295, pst[1]-508)
     time.sleep(1)
     pag.moveTo(pst[0], pst[1])
@@ -39,6 +57,7 @@ def rAndr(i, pst):
     pag.moveTo(pst[0], pst[1])
 
 if __name__ == "__main__":
+# def tempmain():
     # print (pag.position())
     time.sleep(5)
     pag.hotkey('alt', 'tab')
@@ -47,7 +66,7 @@ if __name__ == "__main__":
     # input ('请将鼠标放到界面右下角"我的"上面，不要点击鼠标，在键盘按回车继续')
     input ('确认app界面打开后，按回车继续（请勿移动鼠标！！！）')
     time.sleep(0.5)
-    pag.moveTo(1168, 979)
+    # pag.moveTo(1168, 979)
     time.sleep(0.5)
     pst = pstfx()
     print('坐标获取成功: (' + str(pst[0]) + \
@@ -58,7 +77,7 @@ if __name__ == "__main__":
     time.sleep(2)
     pst[0] = pst[0] - 137
     pst[1] = pst[1] - 334
-    for i in range(0,8):
+    for i in range(0,7):
         pag.moveTo(pst[0], pst[1])
         img = pag.screenshot()
         if pag.pixelMatchesColor(pst[0], pst[1], (255,255,255)):
@@ -81,7 +100,7 @@ if __name__ == "__main__":
     pst[1] = pst[1] - 451
     pag.moveTo(pst[0], pst[1])
     time.sleep(1)
-    for i in range(0,8):
+    for i in range(0,7):
         pag.moveTo(pst[0], pst[1])
         img = pag.screenshot()
         if pag.pixelMatchesColor(pst[0], pst[1], (255,255,255)):
@@ -101,3 +120,33 @@ if __name__ == "__main__":
         # elif pag.pixelMatchesColor(pst[0], pst[1], (255,255,255)):
     print ('\n\n完成，按任意键退出')
     msvcrt.getch()
+
+# if __name__ == "__main__":
+#     pst = pstfx()
+#     pst[0] = pst[0] - 137
+#     pst[1] = pst[1] - 334
+    
+#     # pag.moveTo(pst[0], pst[1])
+#     # pag.moveTo(pst[0] + 137, pst[1] + 334)
+#     print('坐标获取成功: (' + str(pst[0]) + \
+#         ','+str(pst[1]) + ')\n\n切换到"试听学习"')
+#     pag.hotkey('alt', 'tab')
+#     time.sleep(0.5)
+#     pag.click(pst[0], pst[1])
+#     time.sleep(3)
+#     pag.click(pst[0] + 153, pst[1] + 334)
+#     time.sleep(1)
+#     pag.click(pst[0] - 271, pst[1] + 55)
+#     time.sleep(3)
+#     pag.click(pst[0] - 311, pst[1] - 533)
+#     for i in range(0,5):
+#         time.sleep(1)
+#         pag.click(pst[0] + 104, pst[1] + 334)
+#     time.sleep(1)
+#     pag.click(pst[0] - 104, pst[1] + 334)
+#     time.sleep(0.5)
+#     pag.hotkey('b', 'w', 'c', 'x', ',', 'f', 'd', 's', 'z')
+#     pag.hotkey(' ')
+#     time.sleep(1)
+#     pag.click(pst[0] + 173, pst[1] + 274)
+    
