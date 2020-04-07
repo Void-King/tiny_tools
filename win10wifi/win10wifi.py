@@ -2,7 +2,6 @@ import sys
 import os
 import tkinter as tk
 import time
-# test
 def mainloop():
     root = tk.Tk()
     root.title('Wifi')
