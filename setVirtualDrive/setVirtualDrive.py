@@ -32,8 +32,10 @@ def setVirtualDrive():
     label1.pack(padx = 10, pady = 6, anchor = 'w')
     entry1.pack(padx = 13, pady = 5, anchor = 'w')
     frame1.pack(padx = 10, pady = 5)
+
     entry1.insert(0, "D:\Code\Work\EAP")
     entry2.insert(0, "N")
+    
     label2.grid(row = 0, column = 0, padx = 0, pady = 6)
     entry2.grid(row = 0, column = 1, padx = 10, pady = 6)
 
@@ -41,7 +43,7 @@ def setVirtualDrive():
                             command = cmdCall)
     button2 = tk.Button(frame1, width = 12, text = "Unload",\
                             command = cmdCalloff)
-                            
+
     button1.grid(row = 0, column = 2, padx = 40, pady = 6)
     button2.grid(row = 0, column = 3, padx = 7, pady = 6)
 
