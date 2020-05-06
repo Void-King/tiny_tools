@@ -54,7 +54,7 @@ def costCalculator():
         ocost = float(entry1.get('1.0','end'))
         tcost += ocost
         entry1.delete('1.0','end')
-        entry1.insert(tk.INSERT, tcost)
+        entry1.insert(tk.INSERT, round(tcost, 2))
         entry1.config(state = tk.DISABLED)
 
     def inputCost():
