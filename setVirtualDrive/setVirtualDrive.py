@@ -3,6 +3,11 @@ import sys
 import os
 import windnd
 
+# 运行regedit
+# 定位到HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+# 将EnableLUA数值改为0
+# -重启
+
 def setVirtualDrive():
     root = tk.Tk()
     root.title("Set Virtual Drive")
