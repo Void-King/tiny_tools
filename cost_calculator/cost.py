@@ -51,7 +51,7 @@ def costCalculator():
     cost_list.heading('For', text = 'For', anchor = 'w')
     def remianF(tcost):
         entry1.config(state = tk.NORMAL)
-        ocost = int(entry1.get('1.0','end'))
+        ocost = float(entry1.get('1.0','end'))
         tcost += ocost
         entry1.delete('1.0','end')
         entry1.insert(tk.INSERT, tcost)
@@ -59,7 +59,7 @@ def costCalculator():
 
     def inputCost():
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        tcost = int(entry2.get())
+        tcost = float(entry2.get())
         tfor = entry22.get()
         cost_list.insert('', 0, values = (time, tcost, tfor))
         remianF(tcost)
@@ -67,7 +67,7 @@ def costCalculator():
         inputCost()
     def deleteCost():
         titem = cost_list.selection()[0]
-        tcost = int(cost_list.item(titem, 'values')[1])
+        tcost = float(cost_list.item(titem, 'values')[1])
         tcost = -tcost
         remianF(tcost)
         # time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -126,7 +126,7 @@ def costCalculator():
         cost_list.insert('', 0, values = (relines[i - 3][::-1][1:][::-1],
                             relines[i - 2][::-1][1:][::-1],
                             relines[i - 1][::-1][1:][::-1]))
-        remianF(int(relines[i - 2][::-1][1:][::-1]))
+        remianF(float(relines[i - 2][::-1][1:][::-1]))
     def on_closing():
         if messagebox.askokcancel("Quit", "Do you want to quit?"):
             lines = ''
