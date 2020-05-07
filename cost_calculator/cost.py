@@ -28,16 +28,22 @@ def costCalculator():
     label21 = tk.Label(frame2,
                         text = ' Add in Cost: ',
                         font = ("Microsoft YaHei Mono", 10))
-    entry2 = tk.Entry(frame2, width = 10)
+    entry2 = tk.Entry(frame2, width = 10,
+                        font = ("Microsoft YaHei Mono", 10))
     label22 = tk.Label(frame2, text = ' for: ',
                         font = ("Microsoft YaHei Mono", 10))
-    entry22 = tk.Entry(frame2, width = 16)
+    entry22 = tk.Entry(frame2, width = 16,
+                        font = ("Microsoft YaHei Mono", 10))
     label23 = tk.Label(frame2, text = ' ',
                         font = ("Microsoft YaHei Mono", 10))
-    label31 = tk.Label(frame3,
-                        text = 'Select Cost: ',
+    label4 = tk.Label(frame3, text = 'This Week: ',
                         font = ("Microsoft YaHei Mono", 10))
-    entry3 = tk.Text(frame3, width = 23, height = 1,
+    entry4 = tk.Text(frame3, width = 10, height = 1,
+                        font = ("Microsoft YaHei Mono", 10))
+    label31 = tk.Label(frame3,
+                        text = '       Select Cost: ',
+                        font = ("Microsoft YaHei Mono", 9))
+    entry3 = tk.Text(frame3, width = 26, height = 1,
                         font = ("Microsoft YaHei Mono", 10))
     label32 = tk.Label(frame3, text = ' ',
                         font = ("Microsoft YaHei Mono", 10))
@@ -56,13 +62,41 @@ def costCalculator():
         entry1.delete('1.0','end')
         entry1.insert(tk.INSERT, round(tcost, 2))
         entry1.config(state = tk.DISABLED)
-
+    def thisWeek(tcost):
+        if tcost < 0:
+            entry4.config(state = tk.NORMAL)
+            ocost = float(entry4.get('1.0','end'))
+            tcost += ocost
+            entry4.delete('1.0','end')
+            entry4.insert(tk.INSERT, round(tcost, 2))
+            entry4.config(state = tk.DISABLED)
+    # Mon Tue Wed Thu Fri Sat Sun 
+    def weekCost():
+        entry4.config(state = tk.NORMAL)
+        entry4.delete('1.0', 'end')
+        entry4.insert(tk.INSERT, 0)
+        entry4.config(state = tk.DISABLED)
+        this_week = True
+        mon_over = True
+        time = int (datetime.datetime.now().strftime('%j'))
+        weekday = int (datetime.datetime.now().strftime('%w'))
+        if weekday == 0:
+            weekday = 7
+        for item in cost_list.get_children():
+            ltime = datetime.datetime.strptime(str(cost_list.item(item, 'values')[0]), '%Y-%m-%d %H:%M:%S  %a')
+            ltime = int(ltime.strftime('%j'))
+            # 本周一至今天为止
+            if time - ltime < weekday:
+                tcost = float(cost_list.item(item, 'values')[1])
+                thisWeek(tcost)
     def inputCost():
-        time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S  %a')
+        # Mon Tue Wed Thu Fri Sat Sun 
         tcost = float(entry2.get())
         tfor = entry22.get()
         cost_list.insert('', 0, values = (time, tcost, tfor))
         remianF(tcost)
+        thisWeek(tcost)
     def inputkey(event):
         inputCost()
     def deleteCost():
@@ -73,6 +107,7 @@ def costCalculator():
         # time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         entry3.delete('1.0','end')
         cost_list.delete(titem)
+        weekCost()
     def deletekey(event):
         deleteCost()
     def selectClick(event):
@@ -102,13 +137,15 @@ def costCalculator():
     entry22.grid(row = 0, column = 5)
     label23.grid(row = 0, column = 6)
     button1.grid(row = 0, column = 7)
-    frame2.grid(row = 1, column = 0, sticky = 'e', pady = 10)
+    frame2.grid(row = 1, column = 0, sticky = 'w', pady = 10)
     # f3
-    label31.grid(row = 0, column = 0)
-    entry3.grid(row = 0, column = 1)
-    label32.grid(row = 0, column = 2)
-    button2.grid(row = 0, column = 3)
-    frame3.grid(row = 2, column = 0, sticky = 'e')
+    label4.grid(row = 0, column = 0)
+    entry4.grid(row = 0, column = 1)
+    label31.grid(row = 0, column = 2, padx = 5)
+    entry3.grid(row = 0, column = 3)
+    label32.grid(row = 0, column = 4)
+    button2.grid(row = 0, column = 5)
+    frame3.grid(row = 2, column = 0, sticky = 'w')
     # f
     frame.pack(padx = 10, pady = 12)
     cost_list.bind('<ButtonRelease-1>', selectClick)
@@ -122,11 +159,14 @@ def costCalculator():
     # 初始化
     f = open('./cost_calculator/cost.ini', 'r')
     relines = f.readlines()
+    
     for i in range(len(relines), 0, -3):
         cost_list.insert('', 0, values = (relines[i - 3][::-1][1:][::-1],
                             relines[i - 2][::-1][1:][::-1],
                             relines[i - 1][::-1][1:][::-1]))
-        remianF(float(relines[i - 2][::-1][1:][::-1]))
+        tcost = float(relines[i - 2][::-1][1:][::-1])
+        remianF(tcost)
+
     def on_closing():
         if messagebox.askokcancel("Quit", "Do you want to quit?"):
             lines = ''
@@ -138,8 +178,9 @@ def costCalculator():
             f.writelines(lines)
             root.destroy()
 
+    weekCost()
     root.protocol("WM_DELETE_WINDOW", on_closing)
-
+    
     root.mainloop()
 
 if __name__ == "__main__":
