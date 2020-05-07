@@ -192,4 +192,3 @@ def costCalculator():
 
 if __name__ == "__main__":
     costCalculator()
-    # cmdCall("pass")
