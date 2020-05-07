@@ -55,6 +55,11 @@ def costCalculator():
     cost_list.heading('Date', text = 'Date', anchor = 'w')
     cost_list.heading('Cost', text = 'Cost', anchor = 'w')
     cost_list.heading('For', text = 'For', anchor = 'w')
+    cost_list.tag_configure('this_week_tag',
+                                background = '#8bd9ff',
+                                font = ("Microsoft YaHei Mono", 10))
+    cost_list.tag_configure('font_un',
+                                font = ("Microsoft YaHei Mono", 10))
     def remianF(tcost):
         entry1.config(state = tk.NORMAL)
         ocost = float(entry1.get('1.0','end'))
@@ -87,6 +92,7 @@ def costCalculator():
             ltime = int(ltime.strftime('%j'))
             # 本周一至今天为止
             if time - ltime < weekday:
+                cost_list.item(item, tag = 'this_week_tag')
                 tcost = float(cost_list.item(item, 'values')[1])
                 thisWeek(tcost)
     def inputCost():
@@ -94,7 +100,7 @@ def costCalculator():
         # Mon Tue Wed Thu Fri Sat Sun 
         tcost = float(entry2.get())
         tfor = entry22.get()
-        cost_list.insert('', 0, values = (time, tcost, tfor))
+        cost_list.insert('', 0, values = (time, tcost, tfor), tag = 'this_week_tag')
         remianF(tcost)
         thisWeek(tcost)
     def inputkey(event):
@@ -163,7 +169,8 @@ def costCalculator():
     for i in range(len(relines), 0, -3):
         cost_list.insert('', 0, values = (relines[i - 3][::-1][1:][::-1],
                             relines[i - 2][::-1][1:][::-1],
-                            relines[i - 1][::-1][1:][::-1]))
+                            relines[i - 1][::-1][1:][::-1]),
+                            tag = 'font_un')
         tcost = float(relines[i - 2][::-1][1:][::-1])
         remianF(tcost)
 
