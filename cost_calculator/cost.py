@@ -6,6 +6,11 @@ import sys
 import os
 import datetime
 
+from bypy import ByPy
+# 获取一个bypy对象，封装了所有百度云文件操作的方法
+# pip install bypy
+bp = ByPy()
+
 def costCalculator():
     root = tk.Tk()
     root.title("Cost Calculator")
@@ -163,6 +168,7 @@ def costCalculator():
     scrb.config(command = cost_list.yview)
     
     # 初始化
+    bp.download(localpath = r'./cost_calculator/')
     f = open('./cost_calculator/cost.ini', 'r')
     relines = f.readlines()
     
@@ -183,6 +189,9 @@ def costCalculator():
                 lines += cost_list.item(item, 'values')[2] + '\n'
             f = open('./cost_calculator/cost.ini', 'w')
             f.writelines(lines)
+            f.close()
+            bp.upload(localpath= r'./cost_calculator/cost.ini', ondup='overwrite')
+            print ("success")
             root.destroy()
 
     weekCost()
