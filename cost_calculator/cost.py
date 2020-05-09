@@ -5,11 +5,37 @@ from tkinter import messagebox
 import sys
 import os
 import datetime
+import requests
+from ftplib import FTP
 
-from bypy import ByPy
-# 获取一个bypy对象，封装了所有百度云文件操作的方法
-# pip install bypy
-bp = ByPy()
+def ftp_connect(host, username, password):
+    ftp = FTP()
+    # ftp.set_debuglevel(2)
+    ftp.connect(host, 21)
+    ftp.login(username, password)
+    return ftp
+
+"""
+从ftp服务器下载文件
+"""
+def download_file(ftp, remotepath, localpath):
+    bufsize = 1024
+    fp = open(localpath, 'wb')
+    ftp.retrbinary('RETR ' + remotepath, fp.write, bufsize)
+    ftp.set_debuglevel(0)
+    fp.close()
+
+"""
+从本地上传文件到ftp
+"""
+def upload_file(ftp, remotepath, localpath):
+    bufsize = 1024
+    fp = open(localpath, 'rb')
+
+    ftp.storbinary('STOR ' + remotepath, fp, bufsize)
+    ftp.set_debuglevel(0)
+    fp.close()
+
 
 def costCalculator():
     root = tk.Tk()
@@ -168,8 +194,9 @@ def costCalculator():
     scrb.config(command = cost_list.yview)
     
     # 初始化
-    bp.download(localpath = r'./cost_calculator/')
+    download_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
     f = open('./cost_calculator/cost.ini', 'r')
+    
     relines = f.readlines()
     
     for i in range(len(relines), 0, -3):
@@ -190,8 +217,8 @@ def costCalculator():
             f = open('./cost_calculator/cost.ini', 'w')
             f.writelines(lines)
             f.close()
-            bp.upload(localpath= r'./cost_calculator/cost.ini', ondup='overwrite')
-            print ("success")
+            upload_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
+            # print (onlineOutput.split("\n"))
             root.destroy()
 
     weekCost()
@@ -200,4 +227,7 @@ def costCalculator():
     root.mainloop()
 
 if __name__ == "__main__":
+    ftp = ftp_connect("ftp.3i35.top", "GuardiansAA", "123456")
+    # download_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
+    # upload_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
     costCalculator()
