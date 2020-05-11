@@ -6,35 +6,35 @@ import sys
 import os
 import datetime
 import requests
-from ftplib import FTP
+# from ftplib import FTP
 
-def ftp_connect(host, username, password):
-    ftp = FTP()
-    # ftp.set_debuglevel(2)
-    ftp.connect(host, 21)
-    ftp.login(username, password)
-    return ftp
+# def ftp_connect(host, username, password):
+#     ftp = FTP()
+#     # ftp.set_debuglevel(2)
+#     ftp.connect(host, 21)
+#     ftp.login(username, password)
+#     return ftp
 
-"""
-从ftp服务器下载文件
-"""
-def download_file(ftp, remotepath, localpath):
-    bufsize = 1024
-    fp = open(localpath, 'wb')
-    ftp.retrbinary('RETR ' + remotepath, fp.write, bufsize)
-    ftp.set_debuglevel(0)
-    fp.close()
+# """
+# 从ftp服务器下载文件
+# """
+# def download_file(ftp, remotepath, localpath):
+#     bufsize = 1024
+#     fp = open(localpath, 'wb')
+#     ftp.retrbinary('RETR ' + remotepath, fp.write, bufsize)
+#     ftp.set_debuglevel(0)
+#     fp.close()
 
-"""
-从本地上传文件到ftp
-"""
-def upload_file(ftp, remotepath, localpath):
-    bufsize = 1024
-    fp = open(localpath, 'rb')
+# """
+# 从本地上传文件到ftp
+# """
+# def upload_file(ftp, remotepath, localpath):
+#     bufsize = 1024
+#     fp = open(localpath, 'rb')
 
-    ftp.storbinary('STOR ' + remotepath, fp, bufsize)
-    ftp.set_debuglevel(0)
-    fp.close()
+#     ftp.storbinary('STOR ' + remotepath, fp, bufsize)
+#     ftp.set_debuglevel(0)
+#     fp.close()
 
 
 def costCalculator():
@@ -43,6 +43,7 @@ def costCalculator():
     root.geometry("580x521")
     root.resizable(0, 0)
     root.iconbitmap("./gold_coin.ico")
+    
     # 组件定义
     frame = tk.Frame(root)
     frame1 = tk.Frame(frame)
@@ -119,9 +120,7 @@ def costCalculator():
         if weekday == 0:
             weekday = 7
         for item in cost_list.get_children():
-            ltime = datetime.datetime.strptime(str(cost_list.item(item,
-                                                'values')[0]),
-                                                '%Y-%m-%d %H:%M:%S  %a')
+            ltime = datetime.datetime.strptime(str(cost_list.item(item, 'values')[0]), '%Y-%m-%d %H:%M:%S  %a')
             ltime = int(ltime.strftime('%j'))
             # 本周一至今天为止
             if time - ltime < weekday:
@@ -133,8 +132,7 @@ def costCalculator():
         # Mon Tue Wed Thu Fri Sat Sun 
         tcost = float(entry2.get())
         tfor = entry22.get()
-        cost_list.insert('', 0, values = (time, tcost, tfor),
-        tag = 'this_week_tag')
+        cost_list.insert('', 0, values = (time, tcost, tfor), tag = 'this_week_tag')
         remianF(tcost)
         thisWeek(tcost)
     def inputkey(event):
@@ -159,11 +157,9 @@ def costCalculator():
         entry3.insert(tk.INSERT, tdate)
         entry3.config(state = tk.DISABLED)
     button1 = tk.Button(frame2, text = 'Add in',
-                            font = ("Microsoft YaHei Mono", 8),
-                            command = inputCost)
+                            font = ("Microsoft YaHei Mono", 8), command = inputCost)
     button2 = tk.Button(frame3, text = 'Delete',
-                            font = ("Microsoft YaHei Mono", 8),
-                            command = deleteCost)
+                            font = ("Microsoft YaHei Mono", 8), command = deleteCost)
 
     # 组件打包
     # f1
@@ -199,8 +195,8 @@ def costCalculator():
     scrb.config(command = cost_list.yview)
     
     # 初始化
-    download_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
-    f = open('./cost_calculator/cost.ini', 'r')
+    # download_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
+    f = open('./cost_calculator/cost_local.ini', 'r')
     
     relines = f.readlines()
     
@@ -219,10 +215,10 @@ def costCalculator():
                 lines += cost_list.item(item, 'values')[0] + '\n'
                 lines += cost_list.item(item, 'values')[1] + '\n'
                 lines += cost_list.item(item, 'values')[2] + '\n'
-            f = open('./cost_calculator/cost.ini', 'w')
+            f = open('./cost_calculator/cost_local.ini', 'w')
             f.writelines(lines)
             f.close()
-            upload_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
+            # upload_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
             # print (onlineOutput.split("\n"))
             root.destroy()
 
@@ -232,7 +228,7 @@ def costCalculator():
     root.mainloop()
 
 if __name__ == "__main__":
-    ftp = ftp_connect("ftp.3i35.top", "GuardiansAA", "123456")
+    # ftp = ftp_connect("ftp.3i35.top", "GuardiansAA", "123456")
     # download_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
     # upload_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
     costCalculator()
