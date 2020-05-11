@@ -6,35 +6,35 @@ import sys
 import os
 import datetime
 import requests
-from ftplib import FTP
+# from ftplib import FTP
 
-def ftp_connect(host, username, password):
-    ftp = FTP()
-    # ftp.set_debuglevel(2)
-    ftp.connect(host, 21)
-    ftp.login(username, password)
-    return ftp
+# def ftp_connect(host, username, password):
+#     ftp = FTP()
+#     # ftp.set_debuglevel(2)
+#     ftp.connect(host, 21)
+#     ftp.login(username, password)
+#     return ftp
 
-"""
-从ftp服务器下载文件
-"""
-def download_file(ftp, remotepath, localpath):
-    bufsize = 1024
-    fp = open(localpath, 'wb')
-    ftp.retrbinary('RETR ' + remotepath, fp.write, bufsize)
-    ftp.set_debuglevel(0)
-    fp.close()
+# """
+# 从ftp服务器下载文件
+# """
+# def download_file(ftp, remotepath, localpath):
+#     bufsize = 1024
+#     fp = open(localpath, 'wb')
+#     ftp.retrbinary('RETR ' + remotepath, fp.write, bufsize)
+#     ftp.set_debuglevel(0)
+#     fp.close()
 
-"""
-从本地上传文件到ftp
-"""
-def upload_file(ftp, remotepath, localpath):
-    bufsize = 1024
-    fp = open(localpath, 'rb')
+# """
+# 从本地上传文件到ftp
+# """
+# def upload_file(ftp, remotepath, localpath):
+#     bufsize = 1024
+#     fp = open(localpath, 'rb')
 
-    ftp.storbinary('STOR ' + remotepath, fp, bufsize)
-    ftp.set_debuglevel(0)
-    fp.close()
+#     ftp.storbinary('STOR ' + remotepath, fp, bufsize)
+#     ftp.set_debuglevel(0)
+#     fp.close()
 
 
 def costCalculator():
@@ -43,6 +43,7 @@ def costCalculator():
     root.geometry("580x521")
     root.resizable(0, 0)
     root.iconbitmap("./gold_coin.ico")
+    
     # 组件定义
     frame = tk.Frame(root)
     frame1 = tk.Frame(frame)
@@ -67,12 +68,17 @@ def costCalculator():
                         font = ("Microsoft YaHei Mono", 10))
     label23 = tk.Label(frame2, text = ' ',
                         font = ("Microsoft YaHei Mono", 10))
-    label4 = tk.Label(frame3, text = 'This Week: ',
+    label4 = tk.Label(frame3, text = 'Week: ',
                         font = ("Microsoft YaHei Mono", 10))
-    entry4 = tk.Text(frame3, width = 10, height = 1,
+    entry4 = tk.Text(frame3, width = 8, height = 1,
                         font = ("Microsoft YaHei Mono", 10))
     label31 = tk.Label(frame3,
-                        text = '       Select Cost: ',
+                        text = 'Month: ',
+                        font = ("Microsoft YaHei Mono", 9))
+    entry5 = tk.Text(frame3, width = 8, height = 1,
+                        font = ("Microsoft YaHei Mono", 10))
+    label33 = tk.Label(frame3,
+                        text = ' Select: ',
                         font = ("Microsoft YaHei Mono", 9))
     entry3 = tk.Text(frame3, width = 26, height = 1,
                         font = ("Microsoft YaHei Mono", 10))
@@ -98,45 +104,67 @@ def costCalculator():
         entry1.delete('1.0','end')
         entry1.insert(tk.INSERT, round(tcost, 2))
         entry1.config(state = tk.DISABLED)
-    def thisWeek(tcost):
+    # add month 2020 05 19
+    def thisWeek(tcost, week):
         if tcost < 0:
-            entry4.config(state = tk.NORMAL)
-            ocost = float(entry4.get('1.0','end'))
-            tcost += ocost
-            entry4.delete('1.0','end')
-            entry4.insert(tk.INSERT, round(tcost, 2))
-            entry4.config(state = tk.DISABLED)
+            if week:
+                entry4.config(state = tk.NORMAL)
+                ocost = float(entry4.get('1.0','end'))
+                ocost += tcost
+                entry4.delete('1.0','end')
+                entry4.insert(tk.INSERT, round(ocost, 2))
+                entry4.config(state = tk.DISABLED)
+            
+            entry5.config(state = tk.NORMAL)
+            mcost = float(entry5.get('1.0','end'))
+            mcost += tcost
+            entry5.delete('1.0','end')
+            entry5.insert(tk.INSERT, round(mcost, 2))
+            entry5.config(state = tk.DISABLED)
     # Mon Tue Wed Thu Fri Sat Sun 
+    # add month 2020 05 19
     def weekCost():
         entry4.config(state = tk.NORMAL)
         entry4.delete('1.0', 'end')
         entry4.insert(tk.INSERT, 0)
         entry4.config(state = tk.DISABLED)
+
+        entry5.config(state = tk.NORMAL)
+        entry5.delete('1.0', 'end')
+        entry5.insert(tk.INSERT, 0)
+        entry5.config(state = tk.DISABLED)
+
         this_week = True
+        this_month = True
         mon_over = True
         time = int (datetime.datetime.now().strftime('%j'))
         weekday = int (datetime.datetime.now().strftime('%w'))
+        monthday = int (datetime.datetime.now().strftime('%d'))
         if weekday == 0:
             weekday = 7
         for item in cost_list.get_children():
             ltime = datetime.datetime.strptime(str(cost_list.item(item,
-                                                'values')[0]),
-                                                '%Y-%m-%d %H:%M:%S  %a')
+                                                'values')[0]), '%Y-%m-%d\
+                                                %H:%M:%S  %a')
             ltime = int(ltime.strftime('%j'))
             # 本周一至今天为止
             if time - ltime < weekday:
                 cost_list.item(item, tag = 'this_week_tag')
                 tcost = float(cost_list.item(item, 'values')[1])
-                thisWeek(tcost)
+                thisWeek(tcost, True)
+            # 本月
+            if time - ltime < monthday:
+                # cost_list.item(item, tag = 'this_week_tag')
+                tcost = float(cost_list.item(item, 'values')[1])
+                thisWeek(tcost, False)
     def inputCost():
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S  %a')
         # Mon Tue Wed Thu Fri Sat Sun 
         tcost = float(entry2.get())
         tfor = entry22.get()
-        cost_list.insert('', 0, values = (time, tcost, tfor),
-        tag = 'this_week_tag')
+        cost_list.insert('', 0, values = (time, tcost, tfor), tag = 'this_week_tag')
         remianF(tcost)
-        thisWeek(tcost)
+        thisWeek(tcost, True)
     def inputkey(event):
         inputCost()
     def deleteCost():
@@ -159,11 +187,9 @@ def costCalculator():
         entry3.insert(tk.INSERT, tdate)
         entry3.config(state = tk.DISABLED)
     button1 = tk.Button(frame2, text = 'Add in',
-                            font = ("Microsoft YaHei Mono", 8),
-                            command = inputCost)
+                            font = ("Microsoft YaHei Mono", 8), command = inputCost)
     button2 = tk.Button(frame3, text = 'Delete',
-                            font = ("Microsoft YaHei Mono", 8),
-                            command = deleteCost)
+                            font = ("Microsoft YaHei Mono", 8), command = deleteCost)
 
     # 组件打包
     # f1
@@ -184,9 +210,11 @@ def costCalculator():
     label4.grid(row = 0, column = 0)
     entry4.grid(row = 0, column = 1)
     label31.grid(row = 0, column = 2, padx = 5)
-    entry3.grid(row = 0, column = 3)
-    label32.grid(row = 0, column = 4)
-    button2.grid(row = 0, column = 5)
+    entry5.grid(row = 0, column = 3)
+    label33.grid(row = 0, column = 4, padx = 5)
+    entry3.grid(row = 0, column = 5)
+    label32.grid(row = 0, column = 6)
+    button2.grid(row = 0, column = 7)
     frame3.grid(row = 2, column = 0, sticky = 'w')
     # f
     frame.pack(padx = 10, pady = 12)
@@ -199,8 +227,8 @@ def costCalculator():
     scrb.config(command = cost_list.yview)
     
     # 初始化
-    download_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
-    f = open('./cost_calculator/cost.ini', 'r')
+    # download_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
+    f = open('./cost_calculator/cost_local.ini', 'r')
     
     relines = f.readlines()
     
@@ -219,10 +247,10 @@ def costCalculator():
                 lines += cost_list.item(item, 'values')[0] + '\n'
                 lines += cost_list.item(item, 'values')[1] + '\n'
                 lines += cost_list.item(item, 'values')[2] + '\n'
-            f = open('./cost_calculator/cost.ini', 'w')
+            f = open('./cost_calculator/cost_local.ini', 'w')
             f.writelines(lines)
             f.close()
-            upload_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
+            # upload_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
             # print (onlineOutput.split("\n"))
             root.destroy()
 
@@ -232,7 +260,7 @@ def costCalculator():
     root.mainloop()
 
 if __name__ == "__main__":
-    ftp = ftp_connect("ftp.3i35.top", "GuardiansAA", "123456")
+    # ftp = ftp_connect("ftp.3i35.top", "GuardiansAA", "123456")
     # download_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
     # upload_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
     costCalculator()
