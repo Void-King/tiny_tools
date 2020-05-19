@@ -68,7 +68,6 @@ def costCalculator():
                         font = ("Microsoft YaHei Mono", 10))
     label23 = tk.Label(frame2, text = ' ',
                         font = ("Microsoft YaHei Mono", 10))
-<<<<<<< HEAD
     label4 = tk.Label(frame3, text = 'Week: ',
                         font = ("Microsoft YaHei Mono", 10))
     entry4 = tk.Text(frame3, width = 8, height = 1,
@@ -80,14 +79,6 @@ def costCalculator():
                         font = ("Microsoft YaHei Mono", 10))
     label33 = tk.Label(frame3,
                         text = ' Select: ',
-=======
-    label4 = tk.Label(frame3, text = 'This Week: ',
-                        font = ("Microsoft YaHei Mono", 10))
-    entry4 = tk.Text(frame3, width = 10, height = 1,
-                        font = ("Microsoft YaHei Mono", 10))
-    label31 = tk.Label(frame3,
-                        text = '       Select Cost: ',
->>>>>>> feb5986b3ec338259299d5c048175c3a1447a42f
                         font = ("Microsoft YaHei Mono", 9))
     entry3 = tk.Text(frame3, width = 26, height = 1,
                         font = ("Microsoft YaHei Mono", 10))
