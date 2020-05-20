@@ -103,8 +103,8 @@ def costCalculator():
         monthday = int(datetime.datetime.now().strftime('%d'))
         time = int(time.strftime('%j'))
         # print (time_now - time)
-        if monthday > 20:
-            if time_now - time < monthday - 20:
+        if monthday >= 20:
+            if time_now - time <= monthday - 20:
                 return True
             else:
                 return False
@@ -113,7 +113,7 @@ def costCalculator():
             time_str_m = str(int(time_str[5:7]) - 1)
             if int(time_str[5:7]) - 1 < 10:
                 time_str_m = '0' + time_str_m
-            time_str_n = time_str[:5] + str(time_str_m) + '-21'
+            time_str_n = time_str[:5] + str(time_str_m) + '-20'
             # print (time_str)
             # print (time_str_n)
             ltime = int(datetime.datetime.strptime(time_str_n,
