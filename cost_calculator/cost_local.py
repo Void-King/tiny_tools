@@ -97,6 +97,32 @@ def costCalculator():
                                 font = ("Microsoft YaHei Mono", 10))
     cost_list.tag_configure('font_un',
                                 font = ("Microsoft YaHei Mono", 10))
+    def monthCal(time):
+        time_str = datetime.datetime.now().strftime('%Y-%m-%d')
+        time_now = int(datetime.datetime.now().strftime('%j'))
+        monthday = int(datetime.datetime.now().strftime('%d'))
+        time = int(time.strftime('%j'))
+        # print (time_now - time)
+        if monthday > 20:
+            if time_now - time < monthday - 20:
+                return True
+            else:
+                return False
+        else:
+            # print (time_str[5:7])
+            time_str_m = str(int(time_str[5:7]) - 1)
+            if int(time_str[5:7]) - 1 < 10:
+                time_str_m = '0' + time_str_m
+            time_str_n = time_str[:5] + str(time_str_m) + '-21'
+            # print (time_str)
+            # print (time_str_n)
+            ltime = int(datetime.datetime.strptime(time_str_n,
+                        '%Y-%m-%d').strftime('%j'))
+            # print (time - ltime)
+            if time - ltime >= 0:
+                return True
+            else:
+                return False
     def remianF(tcost):
         entry1.config(state = tk.NORMAL)
         ocost = float(entry1.get('1.0','end'))
@@ -143,17 +169,17 @@ def costCalculator():
         if weekday == 0:
             weekday = 7
         for item in cost_list.get_children():
-            ltime = datetime.datetime.strptime(str(cost_list.item(item,
+            ltimeo = datetime.datetime.strptime(str(cost_list.item(item,
                                                 'values')[0]), '%Y-%m-%d\
                                                 %H:%M:%S  %a')
-            ltime = int(ltime.strftime('%j'))
+            ltime = int(ltimeo.strftime('%j'))
             # 本周一至今天为止
             if time - ltime < weekday:
                 cost_list.item(item, tag = 'this_week_tag')
                 tcost = float(cost_list.item(item, 'values')[1])
                 thisWeek(tcost, True, False)
             # 本月
-            if time - ltime < monthday:
+            if monthCal(ltimeo):
                 # cost_list.item(item, tag = 'this_week_tag')
                 tcost = float(cost_list.item(item, 'values')[1])
                 thisWeek(tcost, False, True)
