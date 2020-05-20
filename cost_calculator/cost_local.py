@@ -105,7 +105,7 @@ def costCalculator():
         entry1.insert(tk.INSERT, round(tcost, 2))
         entry1.config(state = tk.DISABLED)
     # add month 2020 05 19
-    def thisWeek(tcost, week):
+    def thisWeek(tcost, week, month):
         if tcost < 0:
             if week:
                 entry4.config(state = tk.NORMAL)
@@ -114,13 +114,13 @@ def costCalculator():
                 entry4.delete('1.0','end')
                 entry4.insert(tk.INSERT, round(ocost, 2))
                 entry4.config(state = tk.DISABLED)
-            
-            entry5.config(state = tk.NORMAL)
-            mcost = float(entry5.get('1.0','end'))
-            mcost += tcost
-            entry5.delete('1.0','end')
-            entry5.insert(tk.INSERT, round(mcost, 2))
-            entry5.config(state = tk.DISABLED)
+            if month:
+                entry5.config(state = tk.NORMAL)
+                mcost = float(entry5.get('1.0','end'))
+                mcost += tcost
+                entry5.delete('1.0','end')
+                entry5.insert(tk.INSERT, round(mcost, 2))
+                entry5.config(state = tk.DISABLED)
     # Mon Tue Wed Thu Fri Sat Sun 
     # add month 2020 05 19
     def weekCost():
@@ -151,12 +151,12 @@ def costCalculator():
             if time - ltime < weekday:
                 cost_list.item(item, tag = 'this_week_tag')
                 tcost = float(cost_list.item(item, 'values')[1])
-                thisWeek(tcost, True)
+                thisWeek(tcost, True, False)
             # 本月
             if time - ltime < monthday:
                 # cost_list.item(item, tag = 'this_week_tag')
                 tcost = float(cost_list.item(item, 'values')[1])
-                thisWeek(tcost, False)
+                thisWeek(tcost, False, True)
     def inputCost():
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S  %a')
         # Mon Tue Wed Thu Fri Sat Sun 
@@ -164,7 +164,7 @@ def costCalculator():
         tfor = entry22.get()
         cost_list.insert('', 0, values = (time, tcost, tfor), tag = 'this_week_tag')
         remianF(tcost)
-        thisWeek(tcost, True)
+        thisWeek(tcost, True, True)
     def inputkey(event):
         inputCost()
     def deleteCost():
