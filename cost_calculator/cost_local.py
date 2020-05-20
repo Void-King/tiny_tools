@@ -39,7 +39,7 @@ import requests
 
 def costCalculator():
     root = tk.Tk()
-    root.title("Cost Calculator")
+    root.title("Cost Calculator---Week From Monday---Month From 20")
     root.geometry("580x521")
     root.resizable(0, 0)
     root.iconbitmap("./gold_coin.ico")
