@@ -78,7 +78,7 @@ def costCalculator():
     entry5 = tk.Text(frame3, width = 8, height = 1,
                         font = ("Microsoft YaHei Mono", 10))
     label33 = tk.Label(frame3,
-                        text = ' Select: ',
+                        text = ' Select:',
                         font = ("Microsoft YaHei Mono", 9))
     entry3 = tk.Text(frame3, width = 26, height = 1,
                         font = ("Microsoft YaHei Mono", 10))
@@ -237,7 +237,7 @@ def costCalculator():
     entry4.grid(row = 0, column = 1)
     label31.grid(row = 0, column = 2, padx = 5)
     entry5.grid(row = 0, column = 3)
-    label33.grid(row = 0, column = 4, padx = 5)
+    label33.grid(row = 0, column = 4, padx = 9)
     entry3.grid(row = 0, column = 5)
     label32.grid(row = 0, column = 6)
     button2.grid(row = 0, column = 7)
