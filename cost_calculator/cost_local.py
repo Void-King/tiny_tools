@@ -39,7 +39,7 @@ import requests
 
 def costCalculator():
     root = tk.Tk()
-    root.title("Cost Calculator---Week From Monday---Month From 20")
+    root.title("Cost Calculator---Week From Sunday---Month From 20")
     root.geometry("580x521")
     root.resizable(0, 0)
     root.iconbitmap("./gold_coin.ico")
@@ -173,8 +173,8 @@ def costCalculator():
                                                 'values')[0]), '%Y-%m-%d\
                                                 %H:%M:%S  %a')
             ltime = int(ltimeo.strftime('%j'))
-            # 本周一至今天为止
-            if time - ltime < weekday:
+            # 上周周日至今天为止
+            if time - ltime <= weekday:
                 cost_list.item(item, tag = 'this_week_tag')
                 tcost = float(cost_list.item(item, 'values')[1])
                 thisWeek(tcost, True, False)
