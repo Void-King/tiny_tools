@@ -175,8 +175,15 @@ def costCalculator():
             ltime = int(ltimeo.strftime('%j'))
             # 上周周日至今天为止
             if time - ltime <= weekday:
+                # calcu_eat = False
                 cost_list.item(item, tag = 'this_week_tag')
                 tcost = float(cost_list.item(item, 'values')[1])
+                tcostreason = str(cost_list.item(item, 'values')[2])
+                # if tcostreason.find("菜") != -1:
+                #     # print ("cai")
+                #     calcu_eat = True
+                # if calcu_eat:
+                #     thisWeek(tcost, True, False)
                 thisWeek(tcost, True, False)
             # 本月
             if monthCal(ltimeo):
@@ -188,7 +195,8 @@ def costCalculator():
         # Mon Tue Wed Thu Fri Sat Sun 
         tcost = float(entry2.get())
         tfor = entry22.get()
-        cost_list.insert('', 0, values = (time, tcost, tfor), tag = 'this_week_tag')
+        cost_list.insert('', 0, values = (time, tcost, tfor),
+            tag = 'this_week_tag')
         remianF(tcost)
         thisWeek(tcost, True, True)
     def inputkey(event):
@@ -213,9 +221,11 @@ def costCalculator():
         entry3.insert(tk.INSERT, tdate)
         entry3.config(state = tk.DISABLED)
     button1 = tk.Button(frame2, text = 'Add in',
-                            font = ("Microsoft YaHei Mono", 8), command = inputCost)
+                            font = ("Microsoft YaHei Mono", 8),
+                            command = inputCost)
     button2 = tk.Button(frame3, text = 'Delete',
-                            font = ("Microsoft YaHei Mono", 8), command = deleteCost)
+                            font = ("Microsoft YaHei Mono", 8),
+                            command = deleteCost)
 
     # 组件打包
     # f1
@@ -286,6 +296,7 @@ def costCalculator():
     root.mainloop()
 
 if __name__ == "__main__":
+    
     # ftp = ftp_connect("ftp.3i35.top", "GuardiansAA", "123456")
     # download_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
     # upload_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
