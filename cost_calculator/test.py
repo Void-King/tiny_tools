@@ -1,46 +1,85 @@
-import datetime
+# pip install pymysql
+# import pymysql
 
-time = datetime.datetime.strptime('2020-02-21', '%Y-%m-%d')
-monthday = int (datetime.datetime.strptime('2020-06-19', '%Y-%m-%d').strftime('%d'))
-s1 = ['2020-05-20','2020-05-19','2020-06-19']
-def monthCal(time):
-    time_str = datetime.datetime.now().strftime('%Y-%m-%d')
-    time_now = int(datetime.datetime.now().strftime('%j'))
-    monthday = int(datetime.datetime.now().strftime('%d'))
-    time = int(time.strftime('%j'))
-    print (time_now - time)
-    if monthday > 20:
-        if time_now - time < monthday - 20:
-            return True
-        else:
-            return False
-    else:
-        print (time_str[5:7])
-        time_str_m = str(int(time_str[5:7]) - 1)
-        if int(time_str[5:7]) - 1 < 10:
-            time_str_m = '0' + time_str_m
-        time_str_n = time_str[:5] + str(time_str_m) + '-21'
-        print (time_str)
-        print (time_str_n)
-        ltime = int(datetime.datetime.strptime(time_str_n,
-                    '%Y-%m-%d').strftime('%j'))
-        print (time - ltime)
-        if time - ltime >= 0:
-            return True
-        else:
-            return False
-print (monthCal(time))
-# print (monthday)
-# for i in s1:
-#     ltime = datetime.datetime.strptime(i, '%Y-%m-%d')
-#     ltime = int(ltime.strftime('%j'))
-#     if monthday >= 20:
-#         if time - ltime <= monthday - 20:
-#             print (i)
-#     else:
-#         if time - ltime < 32:
-#             if time - ltime <= monthday:
-#                 print (i)
-#             if int(datetime.datetime.strptime(i, '%Y-%m-%d').strftime('%d')) >= 20:
-#                 print (i)
+# if __name__ == "__main__":
+    # url = 'bestcdn-mianban-sdkjsd.hkcc.site'
+    # user = 'rypoxmla'
+    # password = 'ivTRBkRY'
+    # dbname = 'rypoxmla'
+    # connect = pymysql.connect(
+    #     host=url,
+    #     port=3313,
+    #     user='rypoxmla',
+    #     passwd='ivTRBkRY',
+    #     db='rypoxmla',
+    #     charset='utf8'
+    # )
+    # if connect:
+    #     print ('success')
 
+    # # cursorInsert = connect.cursor()
+    # # cursorInsert.execute("INSERT INTO [dbo].[costlist]\
+    # #     ([date], [cost], [for])\
+    # #     VALUES ('test1', -12, 'test')")
+    # # connect.commit()
+    # # cursorInsert.close()
+    
+    # cursorSelect = connect.cursor()
+    # cursorSelect.execute("SELECT * FROM costlist")
+    # row = cursorSelect.fetchone()
+    # while row:
+    #     print (row)
+    #     row = cursorSelect.fetchone()
+    # cursorSelect.close()
+    # connect.close()
+
+import tkinter as tk
+
+
+class SampleApp(tk.Tk):
+
+    
+
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+
+        
+
+        e1 = tk.Entry(self)
+        e2 = tk.Entry(self)
+        e3 = tk.Entry(self)
+
+        e1.insert(0,"1")
+        e2.insert(0,"2")
+        e3.insert(0,"3")
+
+        e1.pack()
+        e2.pack()
+        e3.pack()
+
+        # reverse the stacking order to show how
+        # it affects tab order
+        new_order = (e3, e2)
+        for widget in new_order:
+            widget.lift()
+        self.bind('<Tab>', self.OnTextTab)
+
+    def _focusNext(self, widget):
+        '''Return the next widget in tab order'''
+        widget = self.tk.call('tk_focusNext', widget._w)
+        if not widget: return None
+        print (widget.string)
+        if widget.string == '.!entry3':
+            return self.nametowidget('.!entry2')
+        return self.nametowidget(widget.string)
+
+    def OnTextTab(self, event):
+        '''Move focus to next widget'''
+        widget = event.widget
+        next = self._focusNext(widget)
+        next.focus()
+        return "break"
+
+if __name__ == "__main__":
+    app = SampleApp()
+    app.mainloop()
