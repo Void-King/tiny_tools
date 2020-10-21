@@ -11,7 +11,7 @@ import pymssql
 def costCalculator():
     root = tk.Tk()
     root.title("Cost Calculator---Week From Sunday---Month From 20")
-    root.geometry("580x553")
+    root.geometry("580x553+1000+200")
     root.resizable(0, 0)
     root.iconbitmap("./gold_coin.ico")
     
@@ -323,7 +323,7 @@ def costCalculator():
     
     # 初始化
     # download_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
-    f = open('./cost_calculator/cost_local.ini', 'r')
+    f = open('./cost_calculator/cost_local.ini', 'r', encoding='utf8')
     
     relines = f.readlines()
     
@@ -361,7 +361,7 @@ def costCalculator():
                 # connect.commit()
                 # cursorInsert.close()
             # connect.close()
-            f = open('./cost_calculator/cost_local.ini', 'w')
+            f = open('./cost_calculator/cost_local.ini', 'w', encoding='utf8')
             f.writelines(lines)
             f.close()
             # upload_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
@@ -386,7 +386,7 @@ def costCalculator():
     weekCost()
     root.bind('<Tab>', OnTextTab)
     root.protocol("WM_DELETE_WINDOW", on_closing)
-    
+    entry2_4.focus()
     root.mainloop()
 
 if __name__ == "__main__":
