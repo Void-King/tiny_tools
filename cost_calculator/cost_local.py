@@ -323,7 +323,7 @@ def costCalculator():
     
     # 初始化
     # download_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
-    f = open('./cost_calculator/cost_local.ini', 'r')
+    f = open('./cost_calculator/cost_local.ini', 'r', encoding='utf8')
     
     relines = f.readlines()
     
@@ -361,7 +361,7 @@ def costCalculator():
                 # connect.commit()
                 # cursorInsert.close()
             # connect.close()
-            f = open('./cost_calculator/cost_local.ini', 'w')
+            f = open('./cost_calculator/cost_local.ini', 'w', encoding='utf8')
             f.writelines(lines)
             f.close()
             # upload_file(ftp, r"cost.ini", r"./cost_calculator/cost.ini")
