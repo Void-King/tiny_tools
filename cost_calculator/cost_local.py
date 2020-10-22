@@ -218,6 +218,7 @@ def costCalculator():
                 thisWeek(tcost, True, False)
             # 本月
             if monthCal(ltimeo):
+                calcu_eat = False
                 # cost_list.item(item, tag = 'this_week_tag')
                 tcost = float(cost_list.item(item, 'values')[1])
                 tcostreason = str(cost_list.item(item, 'values')[2])
