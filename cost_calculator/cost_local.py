@@ -15,7 +15,7 @@ def costCalculator():
     root.resizable(0, 0)
     root.iconbitmap("./gold_coin.ico")
     
-    eatTypes = ["买菜", "包子", "炸鸡"]
+    eatTypes = ["买菜", "包子", "炸鸡", "零食"]
 
     # 组件定义
     frame = tk.Frame(root)
