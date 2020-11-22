@@ -15,7 +15,7 @@ def costCalculator():
     root.resizable(0, 0)
     root.iconbitmap("./gold_coin.ico")
     
-    eatTypes = ["买菜", "包子", "炸鸡", "零食", "酒", "米", "奶粉"]
+    eatTypes = ["买菜", "包子", "炸鸡", "零食", "酒", "米", "奶粉", "披萨"]
 
     # 组件定义
     frame = tk.Frame(root)
@@ -86,6 +86,9 @@ def costCalculator():
     cost_list.heading('For', text = 'For', anchor = 'w')
     cost_list.tag_configure('this_week_tag',
                                 background = '#8bd9ff',
+                                font = ("Microsoft YaHei Mono", 10))
+    cost_list.tag_configure('this_month_tag',
+                                background = '#cbf9ff',
                                 font = ("Microsoft YaHei Mono", 10))
     cost_list.tag_configure('font_un',
                                 font = ("Microsoft YaHei Mono", 10))
@@ -205,6 +208,17 @@ def costCalculator():
                                                 'values')[0]), '%Y-%m-%d\
                                                 %H:%M:%S  %a')
             ltime = int(ltimeo.strftime('%j'))
+            # 本月
+            if monthCal(ltimeo):
+                calcu_eat = False
+                cost_list.item(item, tag = 'this_month_tag')
+                tcost = float(cost_list.item(item, 'values')[1])
+                tcostreason = str(cost_list.item(item, 'values')[2])
+                for eatType in eatTypes:
+                    if tcostreason.find(eatType) != -1:
+                        calcu_eat = True
+                thisWeekEat(tcost, False, True, calcu_eat)
+                thisWeek(tcost, False, True)
             # 上周周日至今天为止
             if time - ltime <= weekday:
                 calcu_eat = False
@@ -216,17 +230,6 @@ def costCalculator():
                         calcu_eat = True
                 thisWeekEat(tcost, True, False, calcu_eat)
                 thisWeek(tcost, True, False)
-            # 本月
-            if monthCal(ltimeo):
-                calcu_eat = False
-                # cost_list.item(item, tag = 'this_week_tag')
-                tcost = float(cost_list.item(item, 'values')[1])
-                tcostreason = str(cost_list.item(item, 'values')[2])
-                for eatType in eatTypes:
-                    if tcostreason.find(eatType) != -1:
-                        calcu_eat = True
-                thisWeekEat(tcost, False, True, calcu_eat)
-                thisWeek(tcost, False, True)
     def inputCost():
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S  %a')
         # Mon Tue Wed Thu Fri Sat Sun 
