@@ -15,7 +15,7 @@ def costCalculator():
     root.resizable(0, 0)
     root.iconbitmap("./gold_coin.ico")
     
-    eatTypes = ["买菜", "包子", "炸鸡", "零食", "米", "奶粉", "披萨"]
+    eatTypes = ["买菜", "包子", "炸鸡", "零食", "米", "奶粉", "披萨", "面条"]
 
     # 组件定义
     frame = tk.Frame(root)
@@ -93,28 +93,30 @@ def costCalculator():
     cost_list.tag_configure('font_un',
                                 font = ("Microsoft YaHei Mono", 10))
     def monthCal(time):
-        time_str = datetime.datetime.now().strftime('%Y-%m-%d')
-        time_now = int(datetime.datetime.now().strftime('%j'))
-        monthday = int(datetime.datetime.now().strftime('%d'))
-        time = int(time.strftime('%j'))
-        # print (time_now - time)
+        timeNow = datetime.datetime.now()
+        monthday = int(timeNow.strftime('%d'))
+        # 当前是本月20号之后的时间
         if monthday >= 20:
-            if time_now - time <= monthday - 20:
+            # 本月可以放进来的时间
+            leftDay = monthday - 20
+            actualDay = (timeNow - time).days
+            if (actualDay <= leftDay):
                 return True
             else:
                 return False
         else:
-            # print (time_str[5:7])
-            time_str_m = str(int(time_str[5:7]) - 1)
-            if int(time_str[5:7]) - 1 < 10:
-                time_str_m = '0' + time_str_m
-            time_str_n = time_str[:5] + str(time_str_m) + '-20'
-            # print (time_str)
-            # print (time_str_n)
-            ltime = int(datetime.datetime.strptime(time_str_n,
-                        '%Y-%m-%d').strftime('%j'))
-            # print (time - ltime)
-            if time - ltime >= 0:
+            # 上个月20之后的时间
+            lastTwenty = timeNow
+            if (timeNow.month == 1):
+                lastYear = timeNow.year - 1
+                lastTwenty = datetime.datetime.strptime(str(timeNow.year - 1) +\
+                    '-12-20', '%Y-%m-%d')
+            else:
+                lastTwentyStr = str(timeNow.year) + '-' +\
+                    str(timeNow.month - 1) + '-20'
+                lastTwenty = datetime.datetime.strptime(lastTwentyStr,\
+                    '%Y-%m-%d')
+            if ((time - lastTwenty).days >= 0):
                 return True
             else:
                 return False
@@ -201,8 +203,6 @@ def costCalculator():
         time = int (datetime.datetime.now().strftime('%j'))
         weekday = int (datetime.datetime.now().strftime('%w'))
         monthday = int (datetime.datetime.now().strftime('%d'))
-        # if weekday == 0:
-        #     weekday = 7
         for item in cost_list.get_children():
             ltimeo = datetime.datetime.strptime(str(cost_list.item(item,
                                                 'values')[0]), '%Y-%m-%d\
@@ -219,8 +219,11 @@ def costCalculator():
                         calcu_eat = True
                 thisWeekEat(tcost, False, True, calcu_eat)
                 thisWeek(tcost, False, True)
+            timeSpan = (datetime.datetime.now() - ltimeo).days
             # 上周周日至今天为止
-            if time - ltime <= weekday:
+            if (timeSpan <= weekday):
+                if (timeSpan > 0 and ltimeo.weekday() == 5):
+                    return
                 calcu_eat = False
                 cost_list.item(item, tag = 'this_week_tag')
                 tcost = float(cost_list.item(item, 'values')[1])
@@ -266,6 +269,8 @@ def costCalculator():
     def deletekey(event):
         deleteCost()
     def selectClick(event):
+        if len(cost_list.selection()) == 0:
+            return
         entry3_6.config(state = tk.NORMAL)
         titem = cost_list.selection()[0]
         tdate = cost_list.item(titem, 'values')[0]
