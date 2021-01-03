@@ -220,7 +220,18 @@ def costCalculator():
                 thisWeekEat(tcost, False, True, calcu_eat)
                 thisWeek(tcost, False, True)
             timeSpan = (datetime.datetime.now() - ltimeo).days
+
+            if (datetime.datetime.now().weekday() == 6 and timeSpan == 0):
+                zeroClock = datetime.datetime.strptime(\
+                    str(datetime.datetime.now().date()), '%Y-%m-%d')
+                timeSpanDetail = (datetime.datetime.now() -\
+                    ltimeo).total_seconds()
+                timeSpanForSun = (datetime.datetime.now() -\
+                    zeroClock).total_seconds()
+                if (timeSpanDetail > timeSpanForSun):
+                    timeSpan = 0.5
             # 上周周日至今天为止
+            # print (timeSpanFromSun)
             if (timeSpan <= weekday):
                 if (timeSpan > 0 and ltimeo.weekday() == 5):
                     return
