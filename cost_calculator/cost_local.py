@@ -15,7 +15,8 @@ def costCalculator():
     root.resizable(0, 0)
     root.iconbitmap("./gold_coin.ico")
     
-    eatTypes = ["买菜", "包子", "炸鸡", "零食", "米", "奶粉", "披萨", "面条"]
+    eatTypes = ["买菜", "包子", "炸鸡", "零食",\
+        "米", "奶粉", "披萨", "面条", "外卖"]
 
     # 组件定义
     frame = tk.Frame(root)
@@ -203,6 +204,7 @@ def costCalculator():
         time = int (datetime.datetime.now().strftime('%j'))
         weekday = int (datetime.datetime.now().strftime('%w'))
         monthday = int (datetime.datetime.now().strftime('%d'))
+
         for item in cost_list.get_children():
             ltimeo = datetime.datetime.strptime(str(cost_list.item(item,
                                                 'values')[0]), '%Y-%m-%d\
@@ -231,10 +233,9 @@ def costCalculator():
                 if (timeSpanDetail > timeSpanForSun):
                     timeSpan = 0.5
             # 上周周日至今天为止
-            # print (timeSpanFromSun)
             if (timeSpan <= weekday):
                 if (timeSpan > 0 and ltimeo.weekday() == 5):
-                    return
+                    continue
                 calcu_eat = False
                 cost_list.item(item, tag = 'this_week_tag')
                 tcost = float(cost_list.item(item, 'values')[1])
