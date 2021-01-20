@@ -16,7 +16,8 @@ def costCalculator():
     root.iconbitmap("./gold_coin.ico")
     
     eatTypes = ["买菜", "包子", "炸鸡", "零食",\
-        "米", "奶粉", "披萨", "面条", "外卖"]
+        "米", "奶粉", "披萨", "面条", "外卖",\
+        "炒饭"]
 
     # 组件定义
     frame = tk.Frame(root)
@@ -102,7 +103,8 @@ def costCalculator():
             leftDay = monthday - 20
             actualDay = (timeNow - time).days
             if (actualDay <= leftDay):
-                return True
+                if (int(time.strftime('%d')) == 19): return False
+                else: return True
             else:
                 return False
         else:
